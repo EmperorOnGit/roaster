@@ -32,6 +32,12 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+    .roster2 {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
     .card {
     background: rgba(255, 255, 255, 0.03);
@@ -62,7 +68,7 @@
       margin-bottom: 4px;
     }
 
-    .card .role {
+    .card .role.founder {
       font-size: 0.85em;
       color: yellow;
     }
@@ -78,11 +84,14 @@
     .card .role.manager {
       color: rgb(3, 1, 126);
     }
+    .card .role.staff {
+      color: rgb(1, 63, 6);
+    }
 
 #entry-overlay {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 0; 
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.75);
@@ -122,6 +131,31 @@ body:not(.blur-active) .content {
   position: relative;
   z-index: 1;
 }
+.role-section {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 60px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.column h2 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+.card .role.booster-role {
+  color: #500483;
+}
+
+.card .role.protected-role {
+  color: #4dffff;
+}
   </style>
 </head>
 <body>
@@ -130,23 +164,29 @@ body:not(.blur-active) .content {
 </div>
 
 <p style="font-size: 100px;"><span id="typed"></span></p>
+
+  <div class="card" style="margin-bottom: 50px;">
+    <img draggable=false src="https://cdn.discordapp.com/avatars/1267506481159344242/67976825af52c40a75c858298d5185b0.png?size=4096" alt="thaiware" />
+    <div class="name">Thaiware</div>
+    <div class="role founder">founder</div> 
+  </div>
   <div class="roster">
-    <div class="card">
-      <img draggable=false src="https://cdn.discordapp.com/avatars/1267506481159344242/67976825af52c40a75c858298d5185b0.png?size=4096" alt="thaiware" />
-      <div class="name">Thaiware</div>
-      <div class="role">founder</div>
-    </div>
     <div class="card">
       <img draggable=false src="https://cdn.discordapp.com/avatars/1248366690488553518/dc5a3ff8c8aee277c9aec4b169a90465.png?size=4096" alt="raven" />
       <div class="name">Raven</div>
-      <div class="role">founder</div>
-    </div>
-    <div class="card">
-      <img draggable=false src="https://i.pinimg.com/736x/51/7d/82/517d8230ea4cec28ae834bf81fdb229e.jpg" alt="Genocide"/>
-      <div class="name">Genocide</div>
       <div class="role co">co founder</div>
     </div>
     <div class="card">
+      <img draggable=false src="https://i.pinimg.com/736x/51/7d/82/517d8230ea4cec28ae834bf81fdb229e.jpg" alt="Cvg"/>
+      <div class="name">Cvg</div>
+      <div class="role staff">staff</div>
+    </div>
+    <div class="card">
+      <img draggable=false src="https://cdn.discordapp.com/avatars/1303485715132190763/754957857f9f3ad5ebf602e27080e05f.png?size=4096" alt="Cyanide"/>
+      <div class="name">Cyanide</div>
+      <div class="role staff">staff</div>
+    </div>
+      <div class="card">
       <img draggable=false src="https://cdn.discordapp.com/attachments/1373741088501796894/1382632297798434836/photo_2025-05-29_22-14-00.jpg?ex=684bdc2b&is=684a8aab&hm=42d583058eaf0fce9cb5ab21ed42ede9fa0f7e2b924430e02c9e18d1b4c2a4f1&" alt="Death"/>
       <div class="name">Death</div>
       <div class="role manager">manager</div>
@@ -154,9 +194,44 @@ body:not(.blur-active) .content {
     <div class="card">
       <img draggable=false src="https://cdn.discordapp.com/avatars/1090380048726491288/c3509e63002f7644ea2fc76c1830bd53.png?size=4096" alt="Emperor" />
       <div class="name">Emperor</div>
-      <div class="role member">member</div>
-    </div>
+      <div class="role member">offical member</div>
+  </div>
 </div>
+</div>
+<div style="text-align: center; margin-top: 40px;">
+  <button id="toggle-users" style="
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+    padding: 12px 24px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  " onmouseover="this.style.background='rgba(255,255,255,0.15)'" 
+     onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+    Boosters & Protected
+  </button>
+</div>
+
+<div id="roster2" class="roster2" style="display: none;">
+  <div class="card" style="margin-top: 20px;">
+    <img draggable="false" src="https://cdn.discordapp.com/avatars/1353181289271918703/7cd21e32f59ccd73a160ddea90b83a52.png?size=4096" alt="Luke" />
+    <div class="name">Luke</div>
+    <div class="role booster-role">booster</div>
+  </div>
+  <div class="card" style="margin-top: 20px;">
+    <img draggable="false" src="https://cdn.discordapp.com/avatars/1008936001206489132/a_72e1d338b807e8ad53ad334c20546607.png?size=4096&animated=true" alt="Lucid" />
+    <div class="name">Lucid</div>
+    <div class="role booster-role">booster</div>
+  </div>
+  <div class="card" style="margin-top: 20px;">
+    <img draggable="false" src="https://cdn.discordapp.com/avatars/1300415553961328640/3df2980d867e54b9dde012b44bf0333d.png?size=4096" alt="Vozzy" />
+    <div class="name">Vozzy</div>
+    <div class="role protected-role">protected</div>
+  </div>
+</div>  
 <style>
 
 .snowflakes {
@@ -172,6 +247,18 @@ body:not(.blur-active) .content {
 .snowflake,.snowflake .inner{animation-iteration-count:infinite;animation-play-state:running}@keyframes snowflakes-fall{0%{transform:translateY(0)}100%{transform:translateY(110vh)}}@keyframes snowflakes-shake{0%,100%{transform:translateX(0)}50%{transform:translateX(80px)}}.snowflake{position:fixed;top:-10%;z-index:9999;-webkit-user-select:none;user-select:none;cursor:default;pointer-events:none;animation-name:snowflakes-shake;animation-duration:3s;animation-timing-function:ease-in-out}.snowflake .inner{animation-duration:10s;animation-name:snowflakes-fall;animation-timing-function:linear}.snowflake:nth-of-type(0){left:1%;animation-delay:0s}.snowflake:nth-of-type(0) .inner{animation-delay:0s}.snowflake:first-of-type{left:10%;animation-delay:1s}.snowflake:first-of-type .inner,.snowflake:nth-of-type(8) .inner{animation-delay:1s}.snowflake:nth-of-type(2){left:20%;animation-delay:.5s}.snowflake:nth-of-type(2) .inner,.snowflake:nth-of-type(6) .inner{animation-delay:6s}.snowflake:nth-of-type(3){left:30%;animation-delay:2s}.snowflake:nth-of-type(11) .inner,.snowflake:nth-of-type(3) .inner{animation-delay:4s}.snowflake:nth-of-type(4){left:40%;animation-delay:2s}.snowflake:nth-of-type(10) .inner,.snowflake:nth-of-type(4) .inner{animation-delay:2s}.snowflake:nth-of-type(5){left:50%;animation-delay:3s}.snowflake:nth-of-type(5) .inner{animation-delay:8s}.snowflake:nth-of-type(6){left:60%;animation-delay:2s}.snowflake:nth-of-type(7){left:70%;animation-delay:1s}.snowflake:nth-of-type(7) .inner{animation-delay:2.5s}.snowflake:nth-of-type(8){left:80%;animation-delay:0s}.snowflake:nth-of-type(9){left:90%;animation-delay:1.5s}.snowflake:nth-of-type(9) .inner{animation-delay:3s}.snowflake:nth-of-type(10){left:25%;animation-delay:0s}.snowflake:nth-of-type(11){left:65%;animation-delay:2.5s}
 </style>
 <div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
   <div class="snowflake">
     <div class="inner">❅</div>
   </div>
@@ -293,7 +380,7 @@ body:not(.blur-active) .content {
 ">
   🔈
 </button>
-
+<div style="height: 150px;"></div> 
 <script>
   const overlay = document.getElementById('entry-overlay');
   const audio = document.getElementById('bg-music');
@@ -374,19 +461,14 @@ body:not(.blur-active) .content {
           });
 </script>
 <script>
-    (function() {
-        function inspectcheck() {
-            if ((window.outerWidth - window.innerWidth > 160) ||
-                (window.outerHeight - window.innerHeight > 160) ||
-                (window.devtools?.open)) { 
-                location.href = "about:blank";
-            }
-        }
-    
-        inspectcheck(); // check on load
-        setInterval(inspectcheck, 100); // check every 100ms
-    })();
-    </script>
+  const toggleBtn = document.getElementById('toggle-users');
+  const userCardsSection = document.getElementById('roster2');
+
+  toggleBtn.addEventListener('click', () => {
+    const isHidden = userCardsSection.style.display === 'none';
+    userCardsSection.style.display = isHidden ? 'flex' : 'none';
+  });
+</script>
 </div>
 </body>
 </html>

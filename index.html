@@ -350,6 +350,43 @@ body:not(.blur-active) .content {
     });
   });
 </script>
+<script>
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+});
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 's') {
+            event.preventDefault();
+            window.open('https://discord.gg/2wPWuJnVjB', '_blank');
+        }
+        if (event.ctrlKey && event.key === 'u') {
+            event.preventDefault();
+            window.open('https://discord.gg/2wPWuJnVjB', '_blank');
+        }
+        if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+            event.preventDefault();
+            window.open('https://discord.gg/2wPWuJnVjB', '_blank');
+        }
+        if (event.key === 'F12') {
+            event.preventDefault();
+            window.open('https://discord.gg/2wPWuJnVjB', '_blank');
+        }
+          });
+</script>
+<script>
+    (function() {
+        function inspectcheck() {
+            if ((window.outerWidth - window.innerWidth > 160) ||
+                (window.outerHeight - window.innerHeight > 160) ||
+                (window.devtools?.open)) { 
+                location.href = "about:blank";
+            }
+        }
+    
+        inspectcheck(); // check on load
+        setInterval(inspectcheck, 100); // check every 100ms
+    })();
+    </script>
 </div>
 </body>
 </html>

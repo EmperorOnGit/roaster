@@ -380,22 +380,49 @@ body:not(.blur-active) .content {
 ">
   🔈
 </button>
-<div style="height: 150px;"></div> 
+<button id="archive-btn" style="
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 16px;
+  color: white;
+  font-family: 'Share Tech Mono', monospace;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  display: none;
+">
+  Archives
+</button>
+
 <script>
   const overlay = document.getElementById('entry-overlay');
   const audio = document.getElementById('bg-music');
   const muteBtn = document.getElementById('mute-btn');
+  const archiveBtn = document.getElementById('archive-btn');
 
-  overlay.addEventListener('click', () => {
-    document.body.classList.remove("blur-active");
-    overlay.style.opacity = '0';
-    setTimeout(() => {
-      overlay.style.display = 'none';
-    }, 500);
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add("blur-active");
 
-    audio.volume = 0.5;
-    audio.play();
-    muteBtn.style.display = 'block';
+    overlay.addEventListener('click', function () {
+      document.body.classList.remove("blur-active");
+      overlay.style.opacity = '0';
+
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 500);
+
+      audio.volume = 0.5;
+      audio.play();
+      muteBtn.style.display = 'block';
+      archiveBtn.style.display = 'block';
+    });
   });
 
   muteBtn.addEventListener('click', () => {
@@ -409,6 +436,18 @@ body:not(.blur-active) .content {
 
   muteBtn.addEventListener('mouseleave', () => {
     muteBtn.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.1)';
+  });
+
+  archiveBtn.addEventListener('click', () => {
+    window.location.href = 'archives/index.html';
+  });
+
+  archiveBtn.addEventListener('mouseenter', () => {
+    archiveBtn.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.4)';
+  });
+
+  archiveBtn.addEventListener('mouseleave', () => {
+    archiveBtn.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.1)';
   });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
@@ -469,6 +508,14 @@ body:not(.blur-active) .content {
     userCardsSection.style.display = isHidden ? 'flex' : 'none';
   });
 </script>
+<script src="https://assets.guns.lol/cursor-effects.js"></script>
+  <script>
+    window.onload = () => {
+      new cursoreffects.fairyDustCursor({
+        colors: ["#ffffff"]
+      });
+    };
+  </script>
 </div>
 </body>
 </html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1037 Roster</title>
+    <link rel="icon" type="image/x-icon" href="https://cdn.discordapp.com/attachments/1373741088501796894/1382627719115964427/IMG_6654.png?ex=684bd7e8&is=684a8668&hm=1ba15dc0dda6ad0c153ad6432f1e58fb9d3514c4eb7b6c49cea68b50c85ea4c9&">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    body {
+      margin: 0;
+      background: #000;
+      color: white;
+      font-family: 'Share Tech Mono', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 30px;
+    }
+
+    .roster {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .roster2 {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 160px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(1px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .card .name {
+      font-size: 1.1em;
+      margin-bottom: 4px;
+    }
+
+    .card .role.founder {
+      font-size: 0.85em;
+      color: yellow;
+    }
+
+    .card .role.member {
+      color: #ccc;
+    }
+
+    .card .role.co {
+      color: rgb(167, 1, 1);
+    }
+
+    .card .role.manager {
+      color: rgb(3, 1, 126);
+    }
+    .card .role.staff {
+      color: rgb(1, 63, 6);
+    }
+
+#entry-overlay {
+  position: fixed;
+  top: 0;
+  left: 0; 
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: opacity 0.5s ease;
+}
+
+.entry-image {
+  max-width: 80%;
+  max-height: 60%;
+  filter: drop-shadow(0 0 10px rgb(24, 23, 23));
+  pointer-events: none; 
+}
+
+body.blur-active .content {
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+body:not(.blur-active) .content {
+  filter: none;
+  pointer-events: auto;
+  transition: filter 0.5s ease;
+}
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+.role-section {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 60px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.column h2 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+.card .role.booster-role {
+  color: #500483;
+}
+
+.card .role.protected-role {
+  color: #4dffff;
+}
+  </style>
+</head>
+<body>
+    <div id="entry-overlay">
+  <img src="https://cdn.discordapp.com/attachments/1373741088501796894/1382627719115964427/IMG_6654.png?ex=684bd7e8&is=684a8668&hm=1ba15dc0dda6ad0c153ad6432f1e58fb9d3514c4eb7b6c49cea68b50c85ea4c9&" class="entry-image" />
+</div>
+
+<p style="font-size: 100px;"><span id="typed"></span></p>
+
+<video width="640" height="360" controls>
+  <source src="lol.mp4" type="video/mp4">
+</video>
+
+<style>
+
+.snowflakes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.snowflake,.snowflake .inner{animation-iteration-count:infinite;animation-play-state:running}@keyframes snowflakes-fall{0%{transform:translateY(0)}100%{transform:translateY(110vh)}}@keyframes snowflakes-shake{0%,100%{transform:translateX(0)}50%{transform:translateX(80px)}}.snowflake{position:fixed;top:-10%;z-index:9999;-webkit-user-select:none;user-select:none;cursor:default;pointer-events:none;animation-name:snowflakes-shake;animation-duration:3s;animation-timing-function:ease-in-out}.snowflake .inner{animation-duration:10s;animation-name:snowflakes-fall;animation-timing-function:linear}.snowflake:nth-of-type(0){left:1%;animation-delay:0s}.snowflake:nth-of-type(0) .inner{animation-delay:0s}.snowflake:first-of-type{left:10%;animation-delay:1s}.snowflake:first-of-type .inner,.snowflake:nth-of-type(8) .inner{animation-delay:1s}.snowflake:nth-of-type(2){left:20%;animation-delay:.5s}.snowflake:nth-of-type(2) .inner,.snowflake:nth-of-type(6) .inner{animation-delay:6s}.snowflake:nth-of-type(3){left:30%;animation-delay:2s}.snowflake:nth-of-type(11) .inner,.snowflake:nth-of-type(3) .inner{animation-delay:4s}.snowflake:nth-of-type(4){left:40%;animation-delay:2s}.snowflake:nth-of-type(10) .inner,.snowflake:nth-of-type(4) .inner{animation-delay:2s}.snowflake:nth-of-type(5){left:50%;animation-delay:3s}.snowflake:nth-of-type(5) .inner{animation-delay:8s}.snowflake:nth-of-type(6){left:60%;animation-delay:2s}.snowflake:nth-of-type(7){left:70%;animation-delay:1s}.snowflake:nth-of-type(7) .inner{animation-delay:2.5s}.snowflake:nth-of-type(8){left:80%;animation-delay:0s}.snowflake:nth-of-type(9){left:90%;animation-delay:1.5s}.snowflake:nth-of-type(9) .inner{animation-delay:3s}.snowflake:nth-of-type(10){left:25%;animation-delay:0s}.snowflake:nth-of-type(11){left:65%;animation-delay:2.5s}
+</style>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+</div>
+<audio id="bg-music" loop>
+  <source src="g.mp3" type="audio/mpeg">
+</audio>
+
+<button id="mute-btn" style="
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 16px;
+  color: white;
+  font-family: 'Share Tech Mono', monospace;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  display: none;
+">
+  🔈
+</button>
+<div style="height: 150px;"></div> 
+<script>
+  const overlay = document.getElementById('entry-overlay');
+  const audio = document.getElementById('bg-music');
+  const muteBtn = document.getElementById('mute-btn');
+
+  overlay.addEventListener('click', () => {
+    document.body.classList.remove("blur-active");
+    overlay.style.opacity = '0';
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 500);
+
+    audio.volume = 0.5;
+    audio.play();
+    muteBtn.style.display = 'block';
+  });
+
+  muteBtn.addEventListener('click', () => {
+    audio.muted = !audio.muted;
+    muteBtn.textContent = audio.muted ? '🔇' : '🔈';
+  });
+
+  muteBtn.addEventListener('mouseenter', () => {
+    muteBtn.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.4)';
+  });
+
+  muteBtn.addEventListener('mouseleave', () => {
+    muteBtn.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.1)';
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script>
+  var typed = new Typed("#typed", {
+    strings: ["1037 Archives"],
+    typeSpeed: 80,
+    backSpeed: 80,
+    backDelay: 500,
+    loop: true,
+    showCursor: true,
+    cursorChar: '|'
+  });
+</script>
+<button id="archive-btn" style="
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 16px;
+  color: white;
+  font-family: 'Share Tech Mono', monospace;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  display: none;
+">
+  Home
+</button>
+
+<script>
+  const archiveBtn = document.getElementById('archive-btn');
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add("blur-active");
+
+    overlay.addEventListener('click', function () {
+      document.body.classList.remove("blur-active");
+      overlay.style.opacity = '0';
+
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 500);
+
+      archiveBtn.style.display = 'block';
+    });
+  });
+
+  archiveBtn.addEventListener('click', () => {
+    window.location.href = '/index.html';
+  });
+
+  archiveBtn.addEventListener('mouseenter', () => {
+    archiveBtn.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.4)';
+  });
+
+  archiveBtn.addEventListener('mouseleave', () => {
+    archiveBtn.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.1)';
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add("blur-active");
+
+    const overlay = document.getElementById('entry-overlay');
+    overlay.addEventListener('click', function () {
+      document.body.classList.remove("blur-active");
+      overlay.style.opacity = '0';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 500);
+    });
+  });
+</script>
+<script>
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+});
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 's') {
+            event.preventDefault();
+            window.open('https://discord.gg/2wPWuJnVjB', '_blank');
+        }
+        if (event.ctrlKey && event.key === 'u') {
+            event.preventDefault();
+            window.open('https://discord.gg/2wPWuJnVjB', '_blank');
+        }
+        if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+            event.preventDefault();
+            window.open('https://discord.gg/2wPWuJnVjB', '_blank');
+        }
+        if (event.key === 'F12') {
+            event.preventDefault();
+            window.open('https://discord.gg/2wPWuJnVjB', '_blank');
+        }
+          });
+</script>
+<script src="https://assets.guns.lol/cursor-effects.js"></script>
+  <script>
+    window.onload = () => {
+      new cursoreffects.fairyDustCursor({
+        colors: ["#ffffff"]
+      });
+    };
+  </script>
+</div>
+</body>
+</html>
